@@ -61,7 +61,7 @@ function MernComp() {
   useEffect(() => {
     const getData = async () => {
       try {
-        const res = await axios.get('https://mern-todo-pge5.onrender.com/api/items')  
+        const res = await axios.get('http://localhost:8000/api/items')  
         setListItems(res.data);
       } catch (err) {
         console.log(err)
@@ -152,6 +152,11 @@ function MernComp() {
         <option>COMPLETED</option>
         <option>ACTIVE</option>
       </select>
+      {/* <select>
+        {
+          listItems && listItems.map((val)=><options key={val._id}>{val.category}</options>)
+        }
+      </select> */}
       <div className="border-2 border-black rounded-md my-4 p-2 flex flex-wrap gap-2 justify-between">
         {
           listItems && listItems.map((lists) => {
