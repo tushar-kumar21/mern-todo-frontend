@@ -5,10 +5,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { types } from "./redux/reducer"
 import Items from './components/Items';
 
+const styles={
+  addBtn:'border-2 border-green-500 my-auto px-6 py-1 rounded-md font-semibold bg-green-500 text-white hover:bg-white transition-all duration-200 hover:text-green-500',
+  input:'border-2 border-slate-600 rounded-md outline-none px-2',
+  select:'border-2 border-black py-1 px-3 rounded-md mt-4 cursor-pointer mx-auto block'
+}
+
 function MernComp() {
   const [listItems, setListItems] = useState([]);  
 
   const dispatch = useDispatch();
+
   const {
     SET_TITLE,
     SET_DESCRIPTION,
@@ -17,6 +24,7 @@ function MernComp() {
     SET_UPDATE,
     SET_UPDATE_ITEMTEXT,
     SET_OPTIONS,
+    SET_OPTIONS_CATEGORY,
     SET_UPDATE_DESCRIPTION,
     SET_UPDATE_CATEGORY,
     SET_UPDATE_DUE_DATE
@@ -33,7 +41,8 @@ function MernComp() {
     updateDescription,
     updateCategory,
     updateDueDate,
-    options
+    options,
+    optionsCategory
   } = useSelector(state => state.custom);
 
   const addItem = async (e) => {
@@ -119,11 +128,6 @@ function MernComp() {
     }
   }  
 
-  const styles={
-    addBtn:'border-2 border-green-500 my-auto px-6 py-1 rounded-md font-semibold bg-green-500 text-white hover:bg-white transition-all duration-200 hover:text-green-500',
-    input:'border-2 border-slate-600 rounded-md outline-none px-2',
-    select:'border-2 border-black py-1 px-3 rounded-md mt-4 cursor-pointer mx-auto block'
-  }
 
   return (
     <div className='p-2 py-4'>
@@ -152,16 +156,18 @@ function MernComp() {
         <option>COMPLETED</option>
         <option>ACTIVE</option>
       </select>
-      {/* <select>
+      <select className={styles.select} 
+      onChange={(e)=> dispatch({type:SET_OPTIONS_CATEGORY, payload:e.target.value})}>
         {
-          listItems && listItems.map((val)=><options key={val._id}>{val.category}</options>)
+          listItems && listItems.map((val)=><option key={val._id}>{val.category}</option>)
         }
-      </select> */}
+      </select>
       <div className="border-2 border-black rounded-md my-4 p-2 flex flex-wrap gap-2 justify-between">
         {
           listItems && listItems.map((lists) => {
             return (        
-                lists.status === options ?
+              (options === 'ALL' || lists.status === options) &&
+              (optionsCategory === 'ALL' || lists.category === optionsCategory) ?
                 <Items lists={lists} updateItem={updateItem} updateStatus={updateStatus} deleteItem={deleteItem} key={lists._id} listItems={listItems}/>
                 :                
                 options === 'ALL' && 

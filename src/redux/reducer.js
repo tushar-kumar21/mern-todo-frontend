@@ -12,6 +12,7 @@ export const types = {
  SET_UPDATE_CATEGORY:'updCategory',
  SET_UPDATE_DUE_DATE:'updDueDate',
  SET_OPTIONS:'options',
+ SET_OPTIONS_CATEGORY:'optionsCategory',
 }
 
 const initialState = {
@@ -25,7 +26,8 @@ const initialState = {
   updateDescription:'',
   updateCategory:'',
   updateDueDate:'',
-  options:'ALL'
+  options:'ALL',
+  optionsCategory:'ALL'
 };
 
 
@@ -62,6 +64,9 @@ export const customReducer = createReducer(initialState,{
     },
     [types.SET_OPTIONS]:(state, action) => {
         state.options = action.payload
+    },
+    [types.SET_OPTIONS_CATEGORY]:(state, action) => {
+        state.optionsCategory = action.payload
     },
 
 });
