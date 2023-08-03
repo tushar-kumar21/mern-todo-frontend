@@ -25,6 +25,7 @@ function MernComp() {
     SET_UPDATE_ITEMTEXT,
     SET_OPTIONS,
     SET_OPTIONS_CATEGORY,
+    SET_OPTIONS_DUEDATE,
     SET_UPDATE_DESCRIPTION,
     SET_UPDATE_CATEGORY,
     SET_UPDATE_DUE_DATE
@@ -42,7 +43,8 @@ function MernComp() {
     updateCategory,
     updateDueDate,
     options,
-    optionsCategory
+    optionsCategory,
+    optionsDueDate
   } = useSelector(state => state.custom);
 
   const addItem = async (e) => {
@@ -150,24 +152,40 @@ function MernComp() {
         </div>
         <button type="submit" className={styles.addBtn}>Add</button>
       </form>
+
+      <div className='flex py-2 items-center px-8'>
+        <label>STATUS</label>
       <select className={styles.select} 
       onChange={(e) => dispatch({type:SET_OPTIONS, payload: e.target.value})}>
         <option>ALL</option>
         <option>COMPLETED</option>
         <option>ACTIVE</option>
       </select>
+      <label>CATEGORY</label>
       <select className={styles.select} 
       onChange={(e)=> dispatch({type:SET_OPTIONS_CATEGORY, payload:e.target.value})}>
+        <option>ALL</option>
         {
           listItems && listItems.map((val)=><option key={val._id}>{val.category}</option>)
         }
       </select>
+      <label>DUEDATE</label>
+      <select className={styles.select}
+      onChange={(e)=>dispatch({type:SET_OPTIONS_DUEDATE, payload: e.target.value})}>        
+        <option>ALL</option>
+        {
+          listItems && listItems.map((val)=><option key={val._id}>{val.dueDate}</option>)
+        }
+      </select>
+      </div>
+
       <div className="border-2 border-black rounded-md my-4 p-2 flex flex-wrap gap-2 justify-between">
         {
           listItems && listItems.map((lists) => {
             return (        
               (options === 'ALL' || lists.status === options) &&
-              (optionsCategory === 'ALL' || lists.category === optionsCategory) ?
+              (optionsCategory === 'ALL' || lists.category === optionsCategory) &&
+              (optionsDueDate === 'ALL' || lists.dueDate === optionsDueDate) ?
                 <Items lists={lists} updateItem={updateItem} updateStatus={updateStatus} deleteItem={deleteItem} key={lists._id} listItems={listItems}/>
                 :                
                 options === 'ALL' && 
